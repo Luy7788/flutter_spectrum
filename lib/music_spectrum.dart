@@ -21,7 +21,8 @@ class _MusicSpectrumState extends State<MusicSpectrum>
 
   @override
   void initState() {
-    animation = AnimationController(duration: Duration(milliseconds: 300), vsync: this);
+    animation =
+        AnimationController(duration: Duration(milliseconds: 300), vsync: this);
     animation.addListener(() {
       setState(() {});
     });
@@ -63,15 +64,16 @@ class _MusicSpectrumState extends State<MusicSpectrum>
           animation: animation,
           builder: (context, child) {
             List<double> _tempList = [];
-            for(int i= 0; i< finalData.length; i++){
-              double current = lastData[i] + (finalData[i] - lastData[i]) * animation.value;
+            for (int i = 0; i < finalData.length; i++) {
+              double current =
+                  lastData[i] + (finalData[i] - lastData[i]) * animation.value;
               _tempList.add(current);
             }
             return SizedBox(
               height: 100,
               width: 300,
               child: CustomPaint(
-                painter: DancePainter(
+                painter: SpectrumPainter(
                   rangeList: _tempList,
                 ),
               ),
@@ -83,36 +85,33 @@ class _MusicSpectrumState extends State<MusicSpectrum>
   }
 }
 
-class DancePainter extends CustomPainter {
+class SpectrumPainter extends CustomPainter {
   List<double> rangeList = List();
 
-  DancePainter({@required this.rangeList});
+  SpectrumPainter({@required this.rangeList});
 
   @override
   void paint(Canvas canvas, Size size) {
-    // TODO: implement paint
     var rect = Offset.zero & size;
-    // debugPrint('rect $rect');
     canvas.drawRect(rect, Paint()..color = Colors.black);
     LinearGradient gradient = LinearGradient(
-      colors: [
-        Color(0xFFF55B99),
-        Color(0xFFC079E9),
-      ],
+      colors: [Color(0xFFF55B99), Color(0xFFC079E9)],
       begin: Alignment.bottomCenter,
       end: Alignment.topCenter,
     );
-    double width =
-        (size.width - (columnSpace * (columnCount - 1))) / (columnCount);
+    double width = (size.width - (columnSpace * (columnCount - 1))) / (columnCount);
     double step = size.height / 100;
     for (int i = 0; i < columnCount; i++) {
       double height = 1.0;
       if (this.rangeList != null && this.rangeList.length >= i) {
         height = this.rangeList[i] * step;
       }
-
       Rect _columnRect = Rect.fromLTWH(
-          columnSpace * i + width * i, size.height - height, width, height);
+        columnSpace * i + width * i,
+        size.height - height,
+        width,
+        height,
+      );
       canvas.drawRect(
         _columnRect,
         Paint()..shader = gradient.createShader(_columnRect),
@@ -121,7 +120,7 @@ class DancePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant DancePainter oldDelegate) {
+  bool shouldRepaint(covariant SpectrumPainter oldDelegate) {
     return true;
     // return oldDelegate.rangeList != this.rangeList;
   }
