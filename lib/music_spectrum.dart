@@ -21,8 +21,7 @@ class _MusicSpectrumState extends State<MusicSpectrum>
 
   @override
   void initState() {
-    animation =
-        AnimationController(duration: Duration(milliseconds: 300), vsync: this);
+    animation = AnimationController(duration: Duration(milliseconds: 300), vsync: this);
     animation.addListener(() {
       setState(() {});
     });
@@ -39,7 +38,7 @@ class _MusicSpectrumState extends State<MusicSpectrum>
       finalData = [];
       for (int i = 0; i < columnCount; i++) {
         int mix = 0;
-        double height = 0.0 + mix + math.Random().nextInt(100 - 1 - mix);
+        double height = 0.0 + mix + math.Random().nextInt(100 - mix);
         finalData.add(height);
       }
     }
@@ -65,8 +64,7 @@ class _MusicSpectrumState extends State<MusicSpectrum>
           builder: (context, child) {
             List<double> _tempList = [];
             for (int i = 0; i < finalData.length; i++) {
-              double current =
-                  lastData[i] + (finalData[i] - lastData[i]) * animation.value;
+              double current = lastData[i] + (finalData[i] - lastData[i]) * animation.value;
               _tempList.add(current);
             }
             return SizedBox(
